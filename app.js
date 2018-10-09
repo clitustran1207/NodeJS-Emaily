@@ -3,17 +3,28 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-require('./passport');
-
+const cookieSession = require('cookie-session');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-
 var app = express();
 
+// connect database
+require('./database');
+
 // social authentication
+require('./controllers/passport');
 require('./routes/auth')(app);
+
+app.use(
+  cookieSession({
+    maxAge: 30 * 24 * 60 * 1000,
+    keys: [keys.cookieKey]
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

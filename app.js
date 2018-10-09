@@ -19,6 +19,9 @@ app.use(
   })
 );
 
+app.use(passport.initialize());
+app.use(passport.session());
+
 // connect database
 require('./database');
 
@@ -26,14 +29,6 @@ require('./database');
 require('./controllers/passport');
 require('./routes/auth')(app);
 
-app.use(
-  cookieSession({
-    maxAge: 30 * 24 * 60 * 1000,
-    keys: [keys.cookieKey]
-  })
-);
-app.use(passport.initialize());
-app.use(passport.session());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

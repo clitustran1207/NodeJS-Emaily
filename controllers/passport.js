@@ -5,7 +5,7 @@ const keys = require('../config/keys');
 const User = require('../models/User');
 
 passport.serializeUser((user, done) => {
-    done(null, user.id)
+    done(null, user.id);
 });
 passport.deserializeUser((id, done) => {
     User.findById(id)
